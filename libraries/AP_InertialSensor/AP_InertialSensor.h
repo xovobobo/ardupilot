@@ -149,7 +149,7 @@ public:
     bool get_accel_health_all(void) const;
     bool accels_consistent(float accel_error_threshold) const;
     uint8_t get_accel_count(void) const { return MIN(INS_MAX_INSTANCES, _accel_count); }
-    bool accel_calibrated_ok_all() const;
+    int8_t accel_calibrated_ok_all() const;
     bool use_accel(uint8_t instance) const;
 
     // get observed sensor rates, including any internal sampling multiplier
@@ -830,6 +830,8 @@ public:
     // is dynamic fifo enabled for this instance
     bool is_dynamic_fifo_enabled(uint8_t instance) const;
     // endif AP_INERTIALSENSOR_FAST_SAMPLE_WINDOW_ENABLED
+
+    AP_Int16 dronecan_hitl;
 };
 
 namespace AP {
