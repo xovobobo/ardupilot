@@ -66,6 +66,10 @@ RUN export ARDUPILOT_ENTRYPOINT="/home/${USER_NAME}/ardupilot_entrypoint.sh" \
 # Set the buildlogs directory into /tmp as other directory aren't accessible
 ENV BUILDLOGS=/tmp/buildlogs
 
+# Sitl python deps
+RUN sudo apt install python-wx-tools python3-opencv && \
+    pip3 install matplotlib numpy==1.26.4 pyyaml
+
 # Cleanup
 RUN sudo apt-get clean \
     && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
