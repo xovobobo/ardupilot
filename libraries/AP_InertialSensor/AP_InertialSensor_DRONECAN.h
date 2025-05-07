@@ -15,7 +15,7 @@ public:
     void publish_gyro(Vector3f& gyro);
     static uint8_t instances_amount;
 
-    static void subscribe_msgs(AP_DroneCAN* ap_dronecan);
+    static bool subscribe_msgs(AP_DroneCAN* ap_dronecan);
     static void handle_raw_imu(AP_DroneCAN *ap_dronecan, const CanardRxTransfer& transfer, const uavcan_equipment_ahrs_RawIMU &msg);
 
 private:

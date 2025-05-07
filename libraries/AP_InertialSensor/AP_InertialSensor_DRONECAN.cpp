@@ -28,15 +28,18 @@ static uint32_t imu_ts_ms = 0;
 static uint32_t max_timeout_ms = 0;
 static size_t msg_counter{0};
 
-void AP_InertialSensor_DRONECAN::subscribe_msgs(AP_DroneCAN* ap_dronecan)
+bool AP_InertialSensor_DRONECAN::subscribe_msgs(AP_DroneCAN* ap_dronecan)
 {
     if (ap_dronecan == nullptr) {
-        return;
+        return false;
     }
 
     if (Canard::allocate_sub_arg_callback(ap_dronecan, &handle_raw_imu, ap_dronecan->get_driver_index()) == nullptr) {
         AP_BoardConfig::allocation_error("imu_sub");
+        return false;
     }
+
+    return true;
 }
 
 AP_InertialSensor_DRONECAN::AP_InertialSensor_DRONECAN(AP_InertialSensor &imu)
@@ -94,7 +97,7 @@ void AP_InertialSensor_DRONECAN::loop()
 {
     while (true) {
         hal.scheduler->delay_microseconds(5000);
-        if (imu_ts_ms == 0 || imu_ts_ms + 100 < AP_HAL::millis()) {
+        if (imu_ts_ms == 0 || imu_ts_ms + 1000 < AP_HAL::millis()) {
             Vector3f accel{0.00f, 0.00f, -9.81f};
             Vector3f gyro{0.00f, 0.00f, 0.00f};
             publish_accel(accel);
