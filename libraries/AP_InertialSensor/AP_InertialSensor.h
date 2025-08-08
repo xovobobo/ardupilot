@@ -830,6 +830,8 @@ public:
     // is dynamic fifo enabled for this instance
     bool is_dynamic_fifo_enabled(uint8_t instance) const;
     // endif AP_INERTIALSENSOR_FAST_SAMPLE_WINDOW_ENABLED
+
+    AP_Int16 dronecan_hitl;
 };
 
 namespace AP {
