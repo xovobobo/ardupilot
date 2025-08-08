@@ -22,6 +22,7 @@
 #endif
 #include <GCS_MAVLink/GCS.h>
 
+#include "AP_InertialSensor_DRONECAN.h"
 #include "AP_InertialSensor_BMI160.h"
 #include "AP_InertialSensor_BMI270.h"
 #include "AP_InertialSensor_Backend.h"
@@ -684,6 +685,15 @@ const AP_Param::GroupInfo AP_InertialSensor::var_info[] = {
     // @User: Advanced
     AP_GROUPINFO("_RAW_LOG_OPT", 56, AP_InertialSensor, raw_logging_options, 0),
 
+#if AP_INS_DRONECAN_ENABLED
+    // @Param: _DRONECAN_HITL
+    // @DisplayName: DroneCAN HITL IMU option
+    // @Description: DroneCAN uavcan.equipment.ahrs.RawIMU subscriber: enable or disable
+    // @Bitmask: 0:Disable, 1:Enable
+    // @User: Advanced
+    AP_GROUPINFO("_DRONECAN", 57, AP_InertialSensor, dronecan_hitl, 0),
+#endif
+
     /*
       NOTE: parameter indexes have gaps above. When adding new
       parameters check for conflicts carefully
@@ -1177,6 +1187,13 @@ AP_InertialSensor::detect_backends(void)
     const int8_t serial_port = AP::externalAHRS().get_port(AP_ExternalAHRS::AvailableSensor::IMU);
     if (serial_port >= 0) {
         ADD_BACKEND(NEW_NOTHROW AP_InertialSensor_ExternalAHRS(*this, serial_port));
+    }
+#endif
+
+
+#if AP_INS_DRONECAN_ENABLED
+    if (dronecan_hitl == 1 && AP_InertialSensor_DRONECAN::instances_amount == 0) {
+        ADD_BACKEND(new AP_InertialSensor_DRONECAN(*this));
     }
 #endif
 

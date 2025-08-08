@@ -801,6 +801,8 @@ private:
     bool raw_logging_option_set(RAW_LOGGING_OPTION option) const {
         return (raw_logging_options.get() & int32_t(option)) != 0;
     }
+
+    AP_Int16 dronecan_hitl;
 };
 
 namespace AP {
