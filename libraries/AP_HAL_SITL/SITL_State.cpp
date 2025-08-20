@@ -586,10 +586,10 @@ void SITL_State::multicast_state_send(void)
         return;
     }
     if (mc_out_fd == -1) {
-        multicast_state_open();
+        // multicast_state_open();
     }
-    const auto &sfdm = _sitl->state;
-    send(mc_out_fd, (void*)&sfdm, sizeof(sfdm), 0);
+    // const auto &sfdm = _sitl->state;
+    // send(mc_out_fd, (void*)&sfdm, sizeof(sfdm), 0);
 
     check_servo_input();
 }
